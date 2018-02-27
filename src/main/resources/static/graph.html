@@ -7,22 +7,13 @@
 <link rel="stylesheet" href="css/reset.css" />
 <link rel="stylesheet" href="css/normalize.css" />
 
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script
-	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular.min.js"></script>
-<script src="js/main.js"></script>
-<script src="js/controller.js"></script>
-
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis.min.js"></script>
 <link
 	href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis.min.css"
 	rel="stylesheet" type="text/css" />
 
 </head>
 
-<body ng-controller="Graph">
+<body ng-cloak ng-controller="Graph">
 
 	<!-- 		<ul ng-if='filelist'> -->
 	<!-- 			<li ng-repeat="data in filelist.data track by $index"> -->
@@ -30,7 +21,7 @@
 	<!-- 			</li> -->
 	<!-- 		</ul> -->
 
-	<button ng-click="filter('foo')">foo</button>
+	<button ng-click="filter()">Filter</button>
 	<input type="text" ng-model="filterParam" />
 
 	<br />
@@ -39,7 +30,15 @@
 	<button ng-click="fitTimeline()">Fit Timeline</button>
 
 	<!-- Timeline goes here -->
-	<div id="timelinecontainer"><p id="testid">testid</p></div>
+	<div id="timelinecontainer">
+		<p id="timelineTitle">Timeline</p>
+	</div>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular.min.js"></script>
+	<script src="js/main.js"></script>
+	<script src="js/controller.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis.min.js"></script>
 
 </body>
 </html>
