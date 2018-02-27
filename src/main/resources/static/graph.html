@@ -3,9 +3,6 @@
 <head>
 <title>LogGraph</title>
 
-<link rel="stylesheet" href="css/style.css" />
-<link rel="stylesheet" href="css/reset.css" />
-<link rel="stylesheet" href="css/normalize.css" />
 <link rel="stylesheet" href="css/loggraph.css" />
 
 <link
@@ -14,13 +11,7 @@
 
 </head>
 
-<body ng-cloak ng-controller="Graph">
-
-	<!-- 		<ul ng-if='filelist'> -->
-	<!-- 			<li ng-repeat="data in filelist.data track by $index"> -->
-	<!-- 				{{data.dateDash}}, {{data.title}} -->
-	<!-- 			</li> -->
-	<!-- 		</ul> -->
+<body ng-controller="Graph">
 
 	<button ng-click="filter()">Filter</button>
 	<input type="text" ng-model="filterParam" />
@@ -33,6 +24,11 @@
 	<!-- Timeline goes here -->
 	<div class="loggraph" id="timelinecontainer">
 		<p id="timelineTitle">Timeline</p>
+	</div>
+
+	<!-- Selected content goes here -->
+	<div class="loggraph" id="selectedcontent">
+		<p id="contentTitle">Content</p>
 	</div>
 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>

@@ -30,6 +30,7 @@ app.controller('Graph', function($scope, $http, $location) {
 	$scope.filterParam = 'defaultFilterParam';
 	var queryParams = $location.absUrl().split('?')[1];
 
+	// Timeline object.
 	var timeline;
 
 	$http.get('https://localhost:8080/filelist?' + queryParams).then(
@@ -59,6 +60,10 @@ app.controller('Graph', function($scope, $http, $location) {
 
 				// Change the title to indicate loading is done
 				title.innerHTML = "Timeline"
+					
+			  	timeline.on('select', function (properties) {
+			  	  	document.getElementById('contentTitle').innerHTML = $scope.filelist.data[properties.items].title;
+			  	});
 			});
 
 	$scope.fitTimeline = function() {
