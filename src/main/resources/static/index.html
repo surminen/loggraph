@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html ng-app="demo">
+<head>
+<title>LogGraph</title>
+</head>
+
+<body>
+
+	<div ng-controller="Hello">
+		<p>The ID is {{greeting.id}}</p>
+		<p>The content is {{greeting.content}}</p>
+		<p>Filtering on {{filterParam}}</p>
+
+		<button ng-click="filter('foo')">foo</button>
+		<button ng-click="filter('bar')">bar</button>
+		<input type="text" ng-model="filterParam" />
+		
+		<br />
+				
+		<button ng-click="graph()">Graph</button>
+		
+	</div>
+
+
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular.min.js"></script>
+	<script src="js/controller.js"></script>
+</body>
+</html>
