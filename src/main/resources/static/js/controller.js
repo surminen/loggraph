@@ -61,8 +61,19 @@ app.controller('Graph', function($scope, $http, $location) {
 				// Change the title to indicate loading is done
 				title.innerHTML = "Timeline"
 					
+				var selectedContent = "NULL";
 			  	timeline.on('select', function (properties) {
-			  	  	document.getElementById('contentTitle').innerHTML = $scope.filelist.data[properties.items].title;
+			  		var filename = $scope.filelist.data[properties.items].filename;
+					$http.get('https://localhost:8080/filecontent?filename=' + filename).then(
+						function(response) {
+							alert(response.data.filename);
+							selectedContent = response.data.filename;
+							document.getElementById('contentTitle').innerHTML = selectedContent;
+						},
+						function() {
+							selectedContent = "failure";
+							document.getElementById('contentTitle').innerHTML = selectedContent;
+						});
 			  	});
 			});
 

@@ -10,6 +10,8 @@ import java.util.concurrent.atomic.AtomicLong;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -63,6 +65,17 @@ public class Controller {
 		return "redirect:" + authorizeUrl;
 	}
 
+	@RequestMapping("/filecontent")
+	public String filecontent(HttpServletRequest request, HttpServletResponse response,
+			@RequestParam("filename") String filename)
+			throws IOException, ListFolderErrorException, DbxException, JSONException {
+
+		JSONObject json = new JSONObject();
+		json.put("filename", filename);
+		
+		return json.toString();
+	}
+
 	@RequestMapping("/filelist")
 	public FileList filelist(HttpServletRequest request, HttpServletResponse response,
 			@RequestParam("code") String code) throws IOException, ListFolderErrorException, DbxException {
@@ -109,6 +122,7 @@ public class Controller {
 				map.put("dateDash", dateWithDashes);
 				map.put("dateSlash", dateWithSlashes);
 				map.put("title", title);
+				map.put("filename", item.getName());
 				fileList.add(map);
 
 				// Also get file contents here
@@ -138,5 +152,5 @@ public class Controller {
 		date2 += date.substring(0, 4);
 		return date2;
 	}
-	
+
 }
