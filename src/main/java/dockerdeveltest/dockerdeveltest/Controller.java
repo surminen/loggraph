@@ -42,7 +42,8 @@ public class Controller {
 	DbxSessionStore csrfTokenStore;
 	DbxWebAuth webAuth;
 //	String redirectUri = "https://localhost:8080/graph.html";
-	String redirectUri = "https://aqueous-thicket-65474.herokuapp.com/graph.html";
+//	String redirectUri = "https://aqueous-thicket-65474.herokuapp.com/graph.html";
+	String redirectUri = "/graph.html";
 	String accessToken;
 
 	@RequestMapping("/greeting")
@@ -59,7 +60,7 @@ public class Controller {
 		Builder builder = DbxWebAuth.newRequestBuilder();
 
 		// Get the dropbox authorization URL
-		builder.withRedirectUri(redirectUri, csrfTokenStore);
+		builder.withRedirectUri(request.getScheme()+ "://" + request.getServerName()+redirectUri, csrfTokenStore);
 		String authorizeUrl = webAuth.authorize(builder.build());
 
 		response.sendRedirect(authorizeUrl);

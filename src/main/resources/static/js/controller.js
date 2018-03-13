@@ -5,7 +5,8 @@ app.controller('Hello', function($scope, $http, $window) {
 	$scope.filterParam = 'defaultFilterParam';
 
 //	$http.get('https://localhost:8080/greeting').then(function(response) {
-	$http.get('https://aqueous-thicket-65474.herokuapp.com/greeting').then(function(response) {
+//	$http.get('https://aqueous-thicket-65474.herokuapp.com/greeting').then(function(response) {
+	$http.get('/greeting').then(function(response) {
 		$scope.greeting = response.data;
 	});
 
@@ -16,7 +17,8 @@ app.controller('Hello', function($scope, $http, $window) {
 	$scope.graph = function() {
 		$scope.filterParam = 'graph';
 //		var url = "https://localhost:8080/authenticate";
-		var url = "https://aqueous-thicket-65474.herokuapp.com/authenticate";
+//		var url = "https://aqueous-thicket-65474.herokuapp.com/authenticate";
+		var url = "/authenticate";
 		$window.location.href = url;
 	};
 
@@ -36,7 +38,8 @@ app.controller('Graph', function($scope, $http, $location) {
 	var timeline;
 
 //	$http.get('https://localhost:8080/filelist?' + queryParams).then(
-	$http.get('https://aqueous-thicket-65474.herokuapp.com/filelist?' + queryParams).then(
+//	$http.get('https://aqueous-thicket-65474.herokuapp.com/filelist?' + queryParams).then(
+	$http.get('/filelist?' + queryParams).then(
 			function(response) {
 
 				// DOM element where the Timeline will be attached
@@ -68,7 +71,8 @@ app.controller('Graph', function($scope, $http, $location) {
 			  	timeline.on('select', function (properties) {
 			  		var filename = $scope.filelist.data[properties.items].filename;
 //					$http.get('https://localhost:8080/filecontent?filename=' + filename).then(
-					$http.get('https://aqueous-thicket-65474.herokuapp.com/filecontent?filename=' + filename).then(
+//					$http.get('https://aqueous-thicket-65474.herokuapp.com/filecontent?filename=' + filename).then(
+					$http.get('/filecontent?filename=' + filename).then(
 						function(response) {
 							alert(response.data.filename);
 							selectedContent = response.data.filename;
