@@ -41,8 +41,6 @@ public class Controller {
 	DbxRequestConfig config = new DbxRequestConfig("JavaTutorial/1.0");
 	DbxSessionStore csrfTokenStore;
 	DbxWebAuth webAuth;
-//	String redirectUri = "https://localhost:8080/graph.html";
-//	String redirectUri = "https://aqueous-thicket-65474.herokuapp.com/graph.html";
 	String redirectUri = "/graph.html";
 	String accessToken;
 
@@ -60,7 +58,7 @@ public class Controller {
 		Builder builder = DbxWebAuth.newRequestBuilder();
 
 		// Get the dropbox authorization URL
-		builder.withRedirectUri(request.getScheme()+ "://" + request.getServerName()+redirectUri, csrfTokenStore);
+		builder.withRedirectUri(request.getScheme() + "://" + request.getServerName() + redirectUri, csrfTokenStore);
 		String authorizeUrl = webAuth.authorize(builder.build());
 
 		response.sendRedirect(authorizeUrl);
@@ -74,7 +72,7 @@ public class Controller {
 
 		JSONObject json = new JSONObject();
 		json.put("filename", filename);
-		
+
 		return json.toString();
 	}
 
@@ -87,8 +85,9 @@ public class Controller {
 		if (accessToken == null) {
 
 			try {
-				authFinish = webAuth.finishFromRedirect(request.getScheme()+ "://" + request.getServerName() + redirectUri, csrfTokenStore, request.getParameterMap());
-
+				authFinish = webAuth.finishFromRedirect(
+						request.getScheme() + "://" + request.getServerName() + redirectUri, csrfTokenStore,
+						request.getParameterMap());
 			} catch (
 
 			DbxWebAuth.BadRequestException ex) {
@@ -154,5 +153,4 @@ public class Controller {
 		date2 += date.substring(0, 4);
 		return date2;
 	}
-
 }
