@@ -87,7 +87,7 @@ public class Controller {
 		if (accessToken == null) {
 
 			try {
-				authFinish = webAuth.finishFromRedirect(redirectUri, csrfTokenStore, request.getParameterMap());
+				authFinish = webAuth.finishFromRedirect(request.getScheme()+ "://" + request.getServerName() + redirectUri, csrfTokenStore, request.getParameterMap());
 
 			} catch (
 
