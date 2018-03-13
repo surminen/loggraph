@@ -41,7 +41,8 @@ public class Controller {
 	DbxRequestConfig config = new DbxRequestConfig("JavaTutorial/1.0");
 	DbxSessionStore csrfTokenStore;
 	DbxWebAuth webAuth;
-	String redirectUri = "https://localhost:8080/graph.html";
+//	String redirectUri = "https://localhost:8080/graph.html";
+	String redirectUri = "https://aqueous-thicket-65474.herokuapp.com/graph.html";
 	String accessToken;
 
 	@RequestMapping("/greeting")
