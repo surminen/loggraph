@@ -49,6 +49,7 @@ app.controller('Graph', function($scope, $http, $location) {
 						id : i,
 						content : $scope.filelist.data[i].title + "<br />" + "<img src=\"data:image/jfif;base64," + $scope.filelist.data[i].thumbnail + "\"/>",
 						start : $scope.filelist.data[i].dateDash
+						
 					});
 				}
 
