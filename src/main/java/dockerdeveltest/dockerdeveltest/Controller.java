@@ -1,6 +1,8 @@
 package dockerdeveltest.dockerdeveltest;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -10,6 +12,7 @@ import java.util.concurrent.atomic.AtomicLong;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.io.FilenameUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.dropbox.core.DbxAppInfo;
 import com.dropbox.core.DbxAuthFinish;
+import com.dropbox.core.DbxDownloader;
 import com.dropbox.core.DbxException;
 import com.dropbox.core.DbxRequestConfig;
 import com.dropbox.core.DbxSessionStore;
@@ -25,9 +29,11 @@ import com.dropbox.core.DbxStandardSessionStore;
 import com.dropbox.core.DbxWebAuth;
 import com.dropbox.core.DbxWebAuth.Request.Builder;
 import com.dropbox.core.v2.DbxClientV2;
+import com.dropbox.core.v2.files.FileMetadata;
 import com.dropbox.core.v2.files.ListFolderErrorException;
 import com.dropbox.core.v2.files.ListFolderResult;
 import com.dropbox.core.v2.files.Metadata;
+import com.dropbox.core.v2.files.ThumbnailErrorException;
 
 @RestController
 public class Controller {
@@ -113,8 +119,12 @@ public class Controller {
 
 		List<Map<String, String>> fileList = new ArrayList<Map<String, String>>();
 		for (Metadata item : listing.getEntries()) {
-			if (item.getName().endsWith(".gpx")) {
-				String title = item.getName().split("\\xA7")[2];
+
+			String filename = FilenameUtils.removeExtension(item.getName());
+			String extension = FilenameUtils.getExtension(item.getName());
+
+			if (extension.equals("gpx")) {
+				String title = filename.split("\\xA7")[2];
 
 				String dateWithDashes = getDateWithDashes(item);
 				String dateWithSlashes = getDateWithSlashes(item);
@@ -123,10 +133,14 @@ public class Controller {
 				map.put("dateDash", dateWithDashes);
 				map.put("dateSlash", dateWithSlashes);
 				map.put("title", title);
-				map.put("filename", item.getName());
+				map.put("filename", filename);
+				map.put("extension", extension);
 				fileList.add(map);
+			} else if (extension.equals("jpg")) {
+				ByteArrayOutputStream bos = new ByteArrayOutputStream();
+				getThumbnail(item.getPathLower(), bos, client);
+				System.out.println(bos.toString());
 
-				// Also get file contents here
 			} else {
 				// Get coodinates out of the gpx file
 			}
@@ -153,4 +167,11 @@ public class Controller {
 		date2 += date.substring(0, 4);
 		return date2;
 	}
+
+	private void getThumbnail(String path, OutputStream os, DbxClientV2 client)
+			throws ThumbnailErrorException, DbxException, IOException {
+		DbxDownloader<FileMetadata> listing = client.files().getThumbnail(path);
+		listing.download(os);
+	}
+
 }
