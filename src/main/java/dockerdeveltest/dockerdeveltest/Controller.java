@@ -117,30 +117,33 @@ public class Controller {
 		DbxClientV2 client = new DbxClientV2(config, accessToken);
 		ListFolderResult listing = client.files().listFolderBuilder("/Life Log").start();
 
-		List<Map<String, String>> fileList = new ArrayList<Map<String, String>>();
+		List<Map<String, Object>> fileList = new ArrayList<Map<String, Object>>();
 		for (Metadata item : listing.getEntries()) {
 
 			String filename = FilenameUtils.removeExtension(item.getName());
 			String extension = FilenameUtils.getExtension(item.getName());
 
+			String dateWithDashes = getDateWithDashes(item);
+			String dateWithSlashes = getDateWithSlashes(item);
+			String title = filename.split("\\xA7")[2];
+
+			Map<String, Object> map = new HashMap<String, Object>();
+			
+			map.put("dateDash", dateWithDashes);
+			map.put("dateSlash", dateWithSlashes);
+			map.put("title", title);
+			map.put("filename", filename);
+			map.put("extension", extension);
+			
 			if (extension.equals("gpx")) {
-				String title = filename.split("\\xA7")[2];
-
-				String dateWithDashes = getDateWithDashes(item);
-				String dateWithSlashes = getDateWithSlashes(item);
-
-				Map<String, String> map = new HashMap<String, String>();
-				map.put("dateDash", dateWithDashes);
-				map.put("dateSlash", dateWithSlashes);
-				map.put("title", title);
-				map.put("filename", filename);
-				map.put("extension", extension);
 				fileList.add(map);
 			} else if (extension.equals("jpg")) {
 				ByteArrayOutputStream bos = new ByteArrayOutputStream();
 				getThumbnail(item.getPathLower(), bos, client);
 				System.out.println(bos.toString());
+				map.put("thumbnail", bos.toByteArray());
 
+				fileList.add(map);
 			} else {
 				// Get coodinates out of the gpx file
 			}
