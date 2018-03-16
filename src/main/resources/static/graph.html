@@ -9,6 +9,15 @@
 	href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis.min.css"
 	rel="stylesheet" type="text/css" />
 
+<!-- Fix for positioning of VIS items -->
+<style>
+.vis-labelset .vis-label .vis-inner {
+    width: 100%;
+    text-align: center;
+    box-sizing: border-box;
+}
+</style>
+
 </head>
 
 <body ng-controller="Graph">

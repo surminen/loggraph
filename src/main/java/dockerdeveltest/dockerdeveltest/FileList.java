@@ -1,17 +1,24 @@
 package dockerdeveltest.dockerdeveltest;
 
-import java.util.List;
+import java.util.HashMap;
 import java.util.Map;
 
 public class FileList {
 
-	private final List<Map<String, Object>> data;
+	private Map<String, Map<String, Object>> datamap = new HashMap<>();;
 
-	public FileList(List<Map<String, Object>> _data) {
-		this.data = _data;
+	public Map<String, Map<String, Object>> getDatamap() {
+		return datamap;
 	}
 
-	public List<Map<String, Object>> getData() {
-		return data;
+	public void addToMap(String key, HashMap<String, Object> value) {
+		if(datamap.containsKey(key))
+		{
+			datamap.get(key).putAll(value);
+		}
+		else
+		{
+			datamap.put(key, value);
+		}
 	}
 }

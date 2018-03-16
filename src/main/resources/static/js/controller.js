@@ -44,15 +44,15 @@ app.controller('Graph', function($scope, $http, $location) {
 
 				// Create a DataSet (allows two way data-binding)
 				var items = new vis.DataSet();
-				for (i = 0; i < $scope.filelist.data.length; i++) {
+				var i = 0;
+				for (var key in $scope.filelist.datamap) {
 					items.add({
-						id : i,
-						content : $scope.filelist.data[i].title + "<br />" + "<img src=\"data:image/jfif;base64," + $scope.filelist.data[i].thumbnail + "\"/>",
-						start : $scope.filelist.data[i].dateDash
-						
+						id : i++,
+						content : $scope.filelist.datamap[key].title + "<br />" + "<img src=\"data:image/jfif;base64," + $scope.filelist.datamap[key].thumbnail + "\" />",
+						start : $scope.filelist.datamap[key].dateDash
 					});
 				}
-
+				
 				// Configuration for the Timeline
 				var options = {};
 

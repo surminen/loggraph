@@ -117,7 +117,9 @@ public class Controller {
 		DbxClientV2 client = new DbxClientV2(config, accessToken);
 		ListFolderResult listing = client.files().listFolderBuilder("/Life Log").start();
 
-		List<Map<String, Object>> fileList = new ArrayList<Map<String, Object>>();
+		FileList fl = new FileList();
+		// List<Map<String, Object>> fileList = new ArrayList<Map<String, Object>>();
+
 		for (Metadata item : listing.getEntries()) {
 
 			String filename = FilenameUtils.removeExtension(item.getName());
@@ -127,30 +129,46 @@ public class Controller {
 			String dateWithSlashes = getDateWithSlashes(item);
 			String title = filename.split("\\xA7")[2];
 
-			Map<String, Object> map = new HashMap<String, Object>();
-			
-			map.put("dateDash", dateWithDashes);
-			map.put("dateSlash", dateWithSlashes);
-			map.put("title", title);
-			map.put("filename", filename);
-			map.put("extension", extension);
-			
+			// Map<String, Object> map = new HashMap<String, Object>();
+
+			// map.put("dateDash", dateWithDashes);
+			// map.put("dateSlash", dateWithSlashes);
+			// map.put("title", title);
+			// map.put("filename", filename);
+			// map.put("extension", extension);
+
+			HashMap<String, Object> hm = new HashMap<String, Object>() {
+				{
+					put("dateDash", dateWithDashes);
+					put("dateSlash", dateWithSlashes);
+					put("title", title);
+					put("filename", filename);
+					put("extension", extension);
+				}
+			};
+			fl.addToMap(filename, hm);
+
 			if (extension.equals("gpx")) {
-				fileList.add(map);
+				// fileList.add(map);
 			} else if (extension.equals("jpg")) {
 				ByteArrayOutputStream bos = new ByteArrayOutputStream();
 				getThumbnail(item.getPathLower(), bos, client);
-				System.out.println(bos.toString());
-				map.put("thumbnail", bos.toByteArray());
+				// map.put("thumbnail", bos.toByteArray());
 
-				fileList.add(map);
+				HashMap<String, Object> hm2 = new HashMap<String, Object>() {
+					{
+						put("thumbnail", bos.toByteArray());
+					}
+				};
+
+				fl.addToMap(filename, hm2);
 			} else {
 				// Get coodinates out of the gpx file
 			}
 		}
 
 		// return the template to display;
-		return new FileList(fileList);
+		return fl;
 	}
 
 	// Date e.g. 2000-01-12
