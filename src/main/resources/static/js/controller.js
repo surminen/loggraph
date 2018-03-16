@@ -48,7 +48,7 @@ app.controller('Graph', function($scope, $http, $location) {
 				for (var key in $scope.filelist.datamap) {
 					items.add({
 						id : i++,
-						content : $scope.filelist.datamap[key].title + "<br />" + "<img src=\"data:image/jfif;base64," + $scope.filelist.datamap[key].thumbnail + "\" />",
+						content : $scope.filelist.datamap[key].title + "<br />" + "<img src=\"data:image/jfif;base64," + $scope.filelist.datamap[key].thumbnail + "\" /> <br>",
 						start : $scope.filelist.datamap[key].dateDash
 					});
 				}
