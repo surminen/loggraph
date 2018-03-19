@@ -30,6 +30,7 @@ import com.dropbox.core.DbxWebAuth;
 import com.dropbox.core.DbxWebAuth.Request.Builder;
 import com.dropbox.core.v2.DbxClientV2;
 import com.dropbox.core.v2.files.FileMetadata;
+import com.dropbox.core.v2.files.GetTemporaryLinkResult;
 import com.dropbox.core.v2.files.ListFolderErrorException;
 import com.dropbox.core.v2.files.ListFolderResult;
 import com.dropbox.core.v2.files.Metadata;
@@ -76,8 +77,14 @@ public class Controller {
 			@RequestParam("filename") String filename)
 			throws IOException, ListFolderErrorException, DbxException, JSONException {
 
+		DbxClientV2 client = new DbxClientV2(config, accessToken);
+		System.out.println("/Life Log/" + filename);
+		GetTemporaryLinkResult tlr = client.files().getTemporaryLink("/Life Log/" + filename);
+		String str = tlr.toStringMultiline();
+		
 		JSONObject json = new JSONObject();
-		json.put("filename", filename);
+//		json.put("filename", filename);
+		json.put("filename", str);
 
 		return json.toString();
 	}
@@ -128,14 +135,6 @@ public class Controller {
 			String dateWithDashes = getDateWithDashes(item);
 			String dateWithSlashes = getDateWithSlashes(item);
 			String title = filename.split("\\xA7")[2];
-
-			// Map<String, Object> map = new HashMap<String, Object>();
-
-			// map.put("dateDash", dateWithDashes);
-			// map.put("dateSlash", dateWithSlashes);
-			// map.put("title", title);
-			// map.put("filename", filename);
-			// map.put("extension", extension);
 
 			HashMap<String, Object> hm = new HashMap<String, Object>() {
 				{

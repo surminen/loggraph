@@ -44,11 +44,22 @@ app.controller('Graph', function($scope, $http, $location) {
 
 				// Create a DataSet (allows two way data-binding)
 				var items = new vis.DataSet();
+				
+				
 				var i = 0;
 				for (var key in $scope.filelist.datamap) {
+					var image;
+					if($scope.filelist.datamap[key].thumbnail) {
+						image = "<br />" + "<img src=\"data:image/jfif;base64," + $scope.filelist.datamap[key].thumbnail + "\" style=\"width: 48px; height: 48px;\" />";
+					}
+					else {
+						image = "";
+					}
 					items.add({
-						id : i++,
-						content : $scope.filelist.datamap[key].title + "<br />" + "<img src=\"data:image/jfif;base64," + $scope.filelist.datamap[key].thumbnail + "\" /> <br /> x",
+//						id : i++,
+						id : key,
+						fieldId: key + "." + $scope.filelist.datamap[key].extension,
+						content : $scope.filelist.datamap[key].title + image,
 						start : $scope.filelist.datamap[key].dateDash
 					});
 				}
@@ -64,8 +75,9 @@ app.controller('Graph', function($scope, $http, $location) {
 					
 				var selectedContent = "NULL";
 			  	timeline.on('select', function (properties) {
-			  		var filename = $scope.filelist.data[properties.items].filename;
-					$http.get('/filecontent?filename=' + filename).then(
+			  		var filename = items.get(properties.items)[0].fieldId;
+			  		console.log(filename);
+					$http.get('/filecontent?filename=' + encodeURIComponent(filename)).then(
 						function(response) {
 							alert(response.data.filename);
 							selectedContent = response.data.filename;
